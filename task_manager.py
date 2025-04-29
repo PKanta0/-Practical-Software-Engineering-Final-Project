@@ -35,19 +35,36 @@ def add_task(tasks):
     save_tasks(tasks)
     print("✅ เพิ่มงานเรียบร้อย")
 
+
+def view_tasks(tasks):
+    if not tasks:
+        print("📭 ไม่มีงานในระบบ")
+        return
+
+    print("\n🕒 งานที่ยังไม่เสร็จ:")
+    for task in tasks:
+        if not task["completed"]:
+            print(f"  [{task['id']}] {task['name']} (ครบกำหนด: {task['due_date']})")
+            print(f"     📌 {task['description']}")
+
+    print("\n✅ งานที่เสร็จแล้ว:")
+    for task in tasks:
+        if task["completed"]:
+            print(f"  [{task['id']}] {task['name']} (ครบกำหนด: {task['due_date']})")
+
 def menu():
     tasks = load_tasks()
     while True:
         print("\n====== Task Manager ======")
         print("1. เพิ่มงานใหม่")
-        print("2. ดูงานทั้งหมด (ยังไม่ทำ)")
+        print("2. ดูงานทั้งหมด")
         print("3. ออกจากโปรแกรม")
-        choice = input("เลือกเมนู (1-3): ").strip()
+        choice = input("เลือกตัวเลือก (1-3): ").strip()
 
         if choice == '1':
             add_task(tasks)
         elif choice == '2':
-            print("🔧 ฟังก์ชันนี้อยู่ระหว่างพัฒนา")
+            view_tasks(tasks)
         elif choice == '3':
             print("👋 ออกจากโปรแกรม")
             break
@@ -56,3 +73,5 @@ def menu():
 
 if __name__ == '__main__':
     menu()
+
+
