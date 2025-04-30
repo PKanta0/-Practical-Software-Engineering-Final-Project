@@ -87,6 +87,24 @@ def delete_task(tasks):
 
     print("❌ ไม่พบงานที่มี ID นี้")
 
+def search_tasks(tasks):
+    keyword = input("🔍 ค้นหาจากคำ หรือวันที่ (YYYY-MM-DD): ").lower()
+
+    results = []
+    for task in tasks:
+        if (keyword in task['name'].lower() or
+            keyword in task['description'].lower() or
+            keyword in task['due_date']):
+            results.append(task)
+
+    if results:
+        print(f"\n🔎 พบ {len(results)} งานที่ตรงกับคำค้น:")
+        for task in results:
+            status = "✅ เสร็จแล้ว" if task['completed'] else "🕒 รอดำเนินการ"
+            print(f"  [{task['id']}] {task['name']} - {status} (ครบกำหนด: {task['due_date']})")
+    else:
+        print("❌ ไม่พบงานที่ตรงกับคำค้น")
+
 def menu():
     tasks = load_tasks()
     while True:
@@ -95,8 +113,9 @@ def menu():
         print("2. ดูงานทั้งหมด")
         print("3. ทำเครื่องหมายว่างานเสร็จสิ้น")
         print("4. ลบงาน") 
-        print("5. ออกจากโปรแกรม") 
-        choice = input("เลือกตัวเลือก (1-5): ").strip()
+        print("5. ค้นหางาน") 
+        print("6. ออกจากโปรแกรม") 
+        choice = input("เลือกตัวเลือก (1-6): ").strip()
 
         if choice == '1':
             add_task(tasks)
@@ -107,6 +126,8 @@ def menu():
         elif choice == '4':
             delete_task(tasks)
         elif choice == '5':
+            search_tasks(tasks)
+        elif choice == '6':
             print("👋 ออกจากโปรแกรม")
             break
         else:
