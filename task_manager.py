@@ -71,6 +71,22 @@ def mark_task_completed(tasks):
 
     print("❌ ไม่พบงานที่มี ID นี้")
 
+def delete_task(tasks):
+    try:
+        task_id = int(input("🗑 ใส่ ID ของงานที่ต้องการลบ: "))
+    except ValueError:
+        print("❌ กรุณาใส่ตัวเลขเท่านั้น")
+        return
+
+    for task in tasks:
+        if task['id'] == task_id:
+            tasks.remove(task)
+            save_tasks(tasks)
+            print("✅ ลบงานเรียบร้อยแล้ว")
+            return
+
+    print("❌ ไม่พบงานที่มี ID นี้")
+
 def menu():
     tasks = load_tasks()
     while True:
@@ -78,21 +94,24 @@ def menu():
         print("1. เพิ่มงานใหม่")
         print("2. ดูงานทั้งหมด")
         print("3. ทำเครื่องหมายว่างานเสร็จสิ้น")
-        print("4. ออกจากโปรแกรม") 
-        choice = input("เลือกตัวเลือก (1-3): ").strip()
+        print("4. ลบงาน") 
+        print("5. ออกจากโปรแกรม") 
+        choice = input("เลือกตัวเลือก (1-5): ").strip()
 
         if choice == '1':
             add_task(tasks)
         elif choice == '2':
             view_tasks(tasks)
         elif choice == '3':
-            mark_task_completed(tasks)  
+            mark_task_completed(tasks) 
         elif choice == '4':
+            delete_task(tasks)
+        elif choice == '5':
             print("👋 ออกจากโปรแกรม")
             break
         else:
             print("❌ ตัวเลือกไม่ถูกต้อง")
-            
+
 if __name__ == '__main__':
     menu()
 
